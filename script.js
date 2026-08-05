@@ -13,7 +13,7 @@ document.querySelectorAll('.filters button').forEach(button => button.addEventLi
   products.forEach(product => product.classList.toggle('hidden', button.dataset.filter !== 'all' && product.dataset.category !== button.dataset.filter));
 }));
 
-products.forEach(product => product.querySelector('.product-image').addEventListener('click', () => {
+function openProduct(product) {
   selected = { name: product.dataset.name, price: Number(product.dataset.price), url: product.dataset.url };
   document.querySelector('#dialogProduct').textContent = selected.name;
   document.querySelector('#dialogPrice').textContent = won(selected.price);
@@ -21,7 +21,10 @@ products.forEach(product => product.querySelector('.product-image').addEventList
   document.querySelector('#amazonBuy').href = `https://www.amazon.co.jp/s?k=${query}`;
   document.querySelector('#mercariBuy').href = `https://jp.mercari.com/search?keyword=${query}`;
   dialog.showModal();
-}));
+}
+
+products.forEach(product => product.querySelector('.product-image').addEventListener('click', () => openProduct(product)));
+document.querySelectorAll('.hero-product').forEach(button => button.addEventListener('click', () => openProduct(products[Number(button.dataset.productIndex)])));
 
 document.querySelector('#dialogClose').addEventListener('click', () => dialog.close());
 dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
