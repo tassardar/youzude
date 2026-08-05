@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Noto+Sans+JP:wght@400;600;800;900&display=swap');
+
+:root { --red:#ff382e; --acid:#d8ff35; --black:#090909; --paper:#e8e5df; }
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { margin:0; background:var(--paper); color:var(--black); font-family:"Noto Sans JP",sans-serif; }
+button,a { font:inherit; }
+a { color:inherit; }
+.noise { position:fixed; inset:0; pointer-events:none; opacity:.08; z-index:100; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E"); }
+.ticker { overflow:hidden; background:var(--acid); border-bottom:2px solid; font:12px "Archivo Black"; white-space:nowrap; padding:7px 0; }
+.ticker div { width:max-content; animation:ticker 18s linear infinite; }
+@keyframes ticker { to { transform:translateX(-50%); } }
+.header { height:84px; padding:0 3vw; display:flex; align-items:center; justify-content:space-between; border-bottom:2px solid; position:sticky; top:0; background:#e8e5dff0; backdrop-filter:blur(8px); z-index:50; }
+.logo { font:clamp(25px,3vw,40px) "Archivo Black"; text-decoration:none; letter-spacing:-.08em; }
+.logo span { color:var(--red); }
+.header nav { display:flex; gap:30px; }
+.header nav a { font-size:11px; font-weight:900; text-decoration:none; }
+.cart-button { background:var(--black); color:white; border:0; padding:12px 18px; font:11px "Archivo Black"; cursor:pointer; }
+.cart-button b { color:var(--acid); margin-left:10px; }
+.hero { min-height:calc(100svh - 114px); display:grid; grid-template-columns:41% 59%; border-bottom:2px solid; overflow:hidden; }
+.hero-copy { padding:5vw 3vw 3vw; display:flex; flex-direction:column; align-items:flex-start; }
+.kicker { font:10px "Archivo Black"; letter-spacing:.12em; border-left:32px solid var(--red); padding-left:8px; }
+.hero h1 { font:clamp(62px,9.2vw,150px)/.76 "Archivo Black"; letter-spacing:-.085em; margin:6vh 0 4vh; }
+.hero h1 em { color:var(--red); font-style:normal; -webkit-text-stroke:2px var(--black); text-shadow:6px 6px 0 var(--black); }
+.lead { font-size:clamp(18px,2vw,28px); font-weight:900; line-height:1.55; margin:auto 0 4vh; }
+.shop-link { width:100%; display:flex; justify-content:space-between; border-top:2px solid; padding-top:15px; font-weight:900; text-decoration:none; }
+.hero-visual { margin:0; position:relative; border-left:2px solid; background:#555; overflow:hidden; }
+.hero-grid { width:100%; height:100%; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; }
+.hero-grid img { width:100%; height:100%; min-width:0; min-height:0; object-fit:cover; filter:saturate(.78) contrast(1.08); transition:transform .8s; }
+.hero-grid img:hover { transform:scale(1.025); z-index:1; }
+.hero-visual figcaption { position:absolute; left:18px; bottom:16px; padding:7px 9px; background:var(--acid); font:10px "Archivo Black"; }
+.stamp { position:absolute; right:24px; top:24px; width:98px; aspect-ratio:1; border-radius:50%; display:grid; place-items:center; text-align:center; transform:rotate(10deg); color:white; background:var(--red); border:3px solid var(--black); font:18px/1 "Archivo Black"; box-shadow:5px 5px 0 var(--black); }
+.drop { padding:7vw 3vw; background:#111; color:white; }
+.section-head { display:flex; justify-content:space-between; align-items:end; margin-bottom:3vw; }
+.section-head>div { display:flex; align-items:start; gap:15px; }
+.section-head span,.num { color:var(--red); font:12px "Archivo Black"; }
+.section-head h2 { margin:0; font:clamp(48px,8vw,118px)/.8 "Archivo Black"; letter-spacing:-.06em; }
+.section-head p { color:#aaa; font-size:11px; line-height:1.8; text-align:right; }
+.filters { display:flex; gap:8px; margin-bottom:25px; }
+.filters button { border:1px solid #555; color:#aaa; background:transparent; padding:9px 16px; font-size:10px; font-weight:900; cursor:pointer; }
+.filters button.active,.filters button:hover { background:var(--acid); color:#111; border-color:var(--acid); }
+.product-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:4vw 18px; }
+.product.hidden { display:none; }
+.product-image { border:0; padding:0; width:100%; aspect-ratio:1; display:block; position:relative; overflow:hidden; cursor:pointer; background:#333; color:white; }
+.product-image img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s,filter .5s; }
+.product-image:hover img { transform:scale(1.035); filter:contrast(1.1); }
+.grade { position:absolute; top:12px; left:12px; background:#111; padding:6px 8px; font:9px "Archivo Black"; }
+.quick { position:absolute; inset:auto 0 0; background:var(--red); color:#111; padding:14px; font:14px "Archivo Black"; transform:translateY(100%); transition:transform .25s; text-align:left; }
+.product-image:hover .quick { transform:none; }
+.product-info { display:flex; justify-content:space-between; gap:20px; padding-top:13px; border-top:1px solid #555; margin-top:10px; }
+.product-info h3 { font:clamp(16px,2vw,27px) "Archivo Black"; margin:0 0 6px; }
+.product-info p { color:#888; font-size:10px; margin:0; }
+.product-info strong { white-space:nowrap; color:var(--acid); font:16px "Archivo Black"; }
+.about { min-height:70vh; display:grid; grid-template-columns:70px 1.25fr 1fr; padding:7vw 3vw; gap:4vw; align-items:center; }
+.vertical { writing-mode:vertical-rl; font:11px "Archivo Black"; letter-spacing:.2em; }
+.about h2 { font-size:clamp(44px,6.3vw,100px); line-height:1.04; letter-spacing:-.08em; margin:28px 0 0; }
+.about h2 i { color:var(--red); font-style:normal; }
+.about-copy>p { font-size:15px; line-height:2.1; font-weight:600; }
+.about-copy dl { margin-top:50px; border-top:2px solid; }
+.about-copy dl div { display:grid; grid-template-columns:100px 1fr; border-bottom:1px solid; padding:15px 0; }
+.about-copy dt { font:10px "Archivo Black"; }
+.about-copy dd { margin:0; font-size:11px; line-height:1.7; }
+footer { background:var(--acid); padding:35px 3vw; border-top:2px solid; display:flex; align-items:end; justify-content:space-between; }
+footer p { margin:0; font:9px "Archivo Black"; }
+dialog { width:min(620px,calc(100% - 28px)); border:2px solid; padding:32px; background:var(--paper); box-shadow:12px 12px 0 var(--red); }
+dialog::backdrop { background:#000b; backdrop-filter:blur(5px); }
+.dialog-close { position:absolute; right:15px; top:10px; border:0; background:none; font-size:34px; cursor:pointer; }
+.dialog-kicker { font:10px "Archivo Black"; color:var(--red); }
+dialog h2 { font:clamp(23px,4vw,42px) "Archivo Black"; margin:12px 0 3px; }
+.dialog-price { margin:0 0 25px; font-size:20px; font-weight:900; }
+.buy-options { display:grid; gap:8px; }
+.buy-options a,.buy-options button { width:100%; display:grid; grid-template-columns:34px 1fr auto; text-align:left; align-items:center; color:var(--black); background:transparent; border:1px solid; padding:15px; text-decoration:none; cursor:pointer; }
+.buy-options a:hover,.buy-options button:hover { background:var(--acid); }
+.buy-options span { font:10px "Archivo Black"; }.buy-options b { font-size:13px; }.buy-options small { grid-column:2; color:#666; font-size:9px; }.buy-options i { grid-column:3; grid-row:1/3; font:20px "Archivo Black"; font-style:normal; }
+.buy-options .brand-logo { display:inline-block; margin-right:7px; font-size:17px; line-height:1; vertical-align:middle; }
+.fruits-logo { font-family:"Archivo Black"; letter-spacing:-.08em; }
+.amazon-logo { position:relative; font:bold 18px Arial,sans-serif!important; letter-spacing:-.06em; padding-bottom:5px; }
+.amazon-logo::after { content:""; position:absolute; left:3px; right:0; bottom:0; height:5px; border-bottom:2px solid #ff9900; border-radius:50%; transform:rotate(2deg); }
+.mercari-logo { color:#4c9bd6; font:bold 17px Arial,sans-serif!important; letter-spacing:-.04em; }
+.mercari-mark { display:inline-flex; gap:2px; vertical-align:middle; margin-right:5px; }
+.mercari-mark u { width:7px; height:14px; border-radius:2px; background:#e94a5b; text-decoration:none; transform:rotate(-8deg); }
+.mercari-mark u:nth-child(2){ background:#44a9df; height:11px; transform:rotate(7deg); }.mercari-mark u:nth-child(3){ background:#f0c13c; height:8px; transform:rotate(-5deg); }
+.note,.demo-note { font-size:9px; color:#666; margin-top:16px; }
+.cart { position:fixed; right:0; top:0; height:100%; width:min(440px,100%); background:var(--paper); z-index:80; padding:25px; transform:translateX(105%); transition:transform .35s; display:flex; flex-direction:column; box-shadow:-8px 0 0 var(--red); }
+.cart.open { transform:none; }.overlay { position:fixed; inset:0; background:#0009; z-index:70; opacity:0; pointer-events:none; transition:opacity .3s; }.overlay.open { opacity:1; pointer-events:auto; }
+.cart-head { display:flex; justify-content:space-between; border-bottom:2px solid; }.cart-head h2 { font:30px "Archivo Black"; }.cart-head button { border:0;background:none;font-size:34px;cursor:pointer; }
+.cart-items { flex:1; overflow:auto; padding:18px 0; }.cart-line { border-bottom:1px solid #aaa; padding:14px 0; display:flex; justify-content:space-between; gap:15px; }.cart-line h3 { margin:0;font-size:12px; }.cart-line button { border:0;background:none;text-decoration:underline;font-size:9px;cursor:pointer; }.empty { color:#777;font-size:12px; }
+.cart-total { display:flex;justify-content:space-between;border-top:2px solid;padding:18px 0; }.cart-total strong { font:23px "Archivo Black"; }.checkout { border:2px solid;background:var(--black);color:white;padding:17px;font:14px "Archivo Black";cursor:pointer; }.checkout:hover { background:var(--red);color:#111; }
+.toast { position:fixed; left:50%; bottom:30px; transform:translate(-50%,30px); opacity:0; z-index:100; background:var(--acid); border:2px solid;padding:12px 18px;font-size:11px;font-weight:900;transition:.25s; }.toast.show { opacity:1;transform:translate(-50%,0); }
+@media(max-width:760px){.header{height:65px}.header nav{display:none}.hero{grid-template-columns:1fr}.hero-copy{min-height:66svh}.hero-visual{border-left:0;border-top:2px solid;aspect-ratio:1}.product-grid{grid-template-columns:1fr}.about{grid-template-columns:30px 1fr}.about-copy{grid-column:2}.section-head p{display:none}.quick{transform:none}.product-info h3{font-size:19px}footer{align-items:start;gap:25px;flex-direction:column}.stamp{width:72px;font-size:13px}}
