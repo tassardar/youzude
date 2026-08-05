@@ -1,15 +1,27 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#d71920"><title>YOUZUDE — Vintage & Archive</title><meta name="description" content="平沢発のヴィンテージ・アーカイブショップ YOUZUDE"><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css?v=20260805-5"><link rel="stylesheet" href="brand.css?v=20260805-1"></head>
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#d71920">
+  <title>YOUZUDE — Vintage & Archive</title><meta name="description" content="平沢発のヴィンテージ・アーカイブショップ YOUZUDE">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css?v=20260805-5"><link rel="stylesheet" href="brand.css?v=20260805-1"><link rel="stylesheet" href="app.css?v=20260805-1">
+</head>
 <body>
-<header class="site-header"><a class="wordmark" href="#top" aria-label="YOUZUDE ホーム"><img src="assets/youzude-logo.svg" alt="YOUZUDE"></a><button class="menu-toggle" aria-label="メニューを開く">MENU</button><nav><a href="#new">NEW ARRIVALS</a><a href="#new">CLOTHING</a><a href="#new">ACCESSORIES</a><a href="#about">ABOUT</a><a href="https://www.instagram.com/youzude_pyeongtaek/" target="_blank" rel="noreferrer">INSTAGRAM</a></nav><p class="copyright">© 2026 YOUZUDE</p></header>
+<header class="site-header">
+  <a class="wordmark" href="#top" aria-label="YOUZUDE ホーム"><img src="assets/youzude-logo.svg?v=2" alt="YOUZUDE"></a><button class="menu-toggle" aria-label="メニューを開く">MENU</button>
+  <nav aria-label="商品メニュー">
+    <button class="nav-filter active" data-filter="all">NEW ARRIVALS</button><button class="nav-filter" data-filter="clothing">CLOTHING</button><button class="nav-filter" data-filter="accessories">ACCESSORIES</button>
+    <a href="#condition">CONDITION GUIDE</a><a href="#about">ABOUT</a><a href="https://www.instagram.com/youzude_pyeongtaek/" target="_blank" rel="noreferrer">INSTAGRAM</a>
+  </nav>
+  <button class="cart-nav" id="cartButton">CART <span id="cartCount">0</span></button><p class="copyright">© 2026 YOUZUDE</p>
+</header>
 <main id="top">
-  <section class="hero" aria-label="YOUZUDE Tokyo editorial">
-    <div class="hero-slide is-active"><img src="assets/hero-city.jpeg" alt="東京の都市風景"></div>
-    <div class="hero-slide"><img src="assets/hero-tokyo.jpeg" alt="東京タワーのある街並み"></div>
-    <div class="hero-caption"><p>PYEONGTAEK / TOKYO</p><h1>USED FOR<br>THE PRESENT.</h1><a href="#new">VIEW NEW ARRIVALS</a></div>
-    <div class="hero-progress" aria-hidden="true"><i></i><i></i></div>
-  </section>
-  <section class="catalog" id="new"><header><h2>NEW ARRIVALS</h2><p><span id="productCount">30</span> ITEMS</p></header><div class="product-grid" id="productGrid" aria-live="polite"></div></section>
+  <section class="hero" aria-label="YOUZUDE Tokyo editorial"><div class="hero-slide is-active"><img src="assets/hero-city.jpeg" alt="東京の都市風景"></div><div class="hero-slide"><img src="assets/hero-tokyo.jpeg" alt="東京タワーのある街並み"></div><div class="hero-caption"><p>PYEONGTAEK / TOKYO</p><h1>USED FOR<br>THE PRESENT.</h1><button class="hero-shop" data-filter="all">VIEW NEW ARRIVALS</button></div><div class="hero-progress" aria-hidden="true"><i></i><i></i></div></section>
+  <section class="catalog" id="new"><header><h2 id="catalogTitle">NEW ARRIVALS</h2><p><span id="productCount">30</span> ITEMS</p></header><div class="product-grid" id="productGrid" aria-live="polite"></div></section>
+  <section class="condition-guide" id="condition"><header><p>USED CONDITION GUIDE</p><h2>商品の状態について</h2></header><div class="condition-list"><article><b>S</b><h3>未使用に近い</h3><p>デッドストック、または使用感がほとんど確認できない状態。</p></article><article><b>A</b><h3>非常に良い</h3><p>わずかな使用感のみ。目立つ汚れやダメージがない状態。</p></article><article><b>B</b><h3>良い</h3><p>一般的な古着の使用感。小さな汚れや擦れがある場合があります。</p></article><article><b>C</b><h3>ヴィンテージコンディション</h3><p>目立つ使用感や経年変化あり。詳細画像と説明をご確認ください。</p></article></div></section>
   <section class="about" id="about"><p>YOUZUDEは韓国・平沢のセカンドハンドショップ。Y2K、アーカイブ、ヴィンテージを中心に、時間を越えて着続けられる一点を選んでいます。</p><dl><div><dt>STORE</dt><dd>10, Tongmiro 4-gil, Pyeongtaek 1F</dd></div><div><dt>OPEN</dt><dd>EVERYDAY 13:00–21:00</dd></div></dl></section>
 </main>
-<dialog id="buyDialog"><button class="close" aria-label="閉じる">CLOSE</button><p class="modal-label">購入方法を選択</p><h2 id="modalName"></h2><p id="modalPrice"></p><div class="buy-links"><a id="directLink" href="https://www.instagram.com/youzude_pyeongtaek/" target="_blank" rel="noreferrer"><b class="store-logo direct-logo"><i>Y</i> 直購入</b><span>ショップへ問い合わせ ↗</span></a><a id="amazonLink" target="_blank" rel="noreferrer"><b class="store-logo amazon-logo">amazon<i></i></b><span>Amazonで探す ↗</span></a><a id="mercariLink" target="_blank" rel="noreferrer"><b class="store-logo mercari-logo"><i>M</i> mercari</b><span>メルカリで探す ↗</span></a></div></dialog>
-<script src="script.js?v=20260805-5"></script></body></html>
+<dialog id="productDialog" class="product-dialog"><button class="close" aria-label="商品詳細を閉じる">CLOSE</button><div class="detail-layout"><div class="detail-gallery"><div class="detail-main"><img id="detailImage" alt=""></div><div class="detail-thumbs" id="detailThumbs"></div></div><div class="detail-copy"><p class="modal-label">ITEM DETAIL</p><h2 id="detailName"></h2><p class="detail-price" id="detailPrice"></p><dl><div><dt>SIZE</dt><dd id="detailSize"></dd></div><div><dt>CONDITION</dt><dd><b class="condition-badge" id="detailCondition"></b><span id="detailConditionText"></span></dd></div></dl><p class="used-note">こちらは中古商品です。画像・状態をご確認のうえご購入ください。</p><button class="add-cart" id="addCart">カートに入れる</button><div class="buy-links compact"><a id="amazonLink" target="_blank" rel="noreferrer"><b class="store-logo amazon-logo">amazon<i></i></b><span>Amazonで探す ↗</span></a><a id="mercariLink" target="_blank" rel="noreferrer"><b class="store-logo mercari-logo"><i>M</i> mercari</b><span>メルカリで探す ↗</span></a></div></div></div></dialog>
+<dialog id="cartDialog" class="cart-dialog"><button class="close cart-close" aria-label="カートを閉じる">CLOSE</button><p class="modal-label">YOUR CART</p><h2>ショッピングカート</h2><div id="cartItems"></div><div class="cart-total"><span>合計</span><strong id="cartTotal">₩0</strong></div><a class="checkout-link" href="https://www.instagram.com/youzude_pyeongtaek/" target="_blank" rel="noreferrer">直購入について問い合わせる ↗</a></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite">カートに追加しました</div>
+<script src="script.js?v=20260805-6"></script>
+</body></html>
