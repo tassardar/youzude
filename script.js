@@ -29,10 +29,66 @@ const products=[
 ['Camper','MIL 1913 レザー ダービー','270','159,000','eaB5v_vc--8f64e8355755.jpg','5qxmr'],
 ['Levi’s','00s Y2K キャンバストート サンド','OS','69,000','x4ly0avH--bf5add275a03.jpg','5ws1t'],
 ['New Era','DC オールオーバー モノグラム キャップ','OS','59,000','gyY93sFtu-61fc8459b0d3.jpg','63bu2']
-].map((p,i)=>({id:i+1,brand:p[0],name:p[1],size:p[2],price:p[3],image:`https://image.production.fruitsfamily.com/public/product/resized%40width620/${p[4]}`}));
-const grid=document.querySelector('#productGrid'),modal=document.querySelector('#buyDialog');
-grid.innerHTML=products.map((p,i)=>`<article class="product"><button data-index="${i}" aria-label="${p.brand} ${p.name}を購入"><img loading="lazy" src="${p.image}" alt="${p.brand} ${p.name}"></button><div class="product-info"><h3>${p.brand} — ${p.name}</h3><p>SIZE ${p.size}</p><strong>₩${p.price}</strong></div></article>`).join('');
-function openProduct(p){document.querySelector('#modalName').textContent=`${p.brand} — ${p.name}`;document.querySelector('#modalPrice').textContent=`₩${p.price}`;const q=encodeURIComponent(`${p.brand} ${p.name}`);document.querySelector('#amazonLink').href=`https://www.amazon.co.jp/s?k=${q}`;document.querySelector('#mercariLink').href=`https://jp.mercari.com/search?keyword=${q}`;modal.showModal()}
-grid.addEventListener('click',e=>{const b=e.target.closest('[data-index]');if(b)openProduct(products[Number(b.dataset.index)])});document.querySelector('.close').addEventListener('click',()=>modal.close());modal.addEventListener('click',e=>{if(e.target===modal)modal.close()});
+].map((p,i)=>{
+  const accessory=/トート|キャップ|バックパック|バッグ|リング|ホーボー/.test(p[1]);
+  const ranks=['A','B','A','B','B','C','A','B','A','B','A','B','B','A','B','C'];
+  return {id:i+1,brand:p[0],name:p[1],size:p[2],price:p[3],image:`https://image.production.fruitsfamily.com/public/product/resized%40width620/${p[4]}`,category:accessory?'accessories':'clothing',condition:ranks[i%ranks.length]};
+});
+
+const conditionText={S:'未使用に近い',A:'非常に良い',B:'良い',C:'ヴィンテージコンディション'};
+const grid=document.querySelector('#productGrid');
+const productDialog=document.querySelector('#productDialog');
+const cartDialog=document.querySelector('#cartDialog');
+let currentProduct=null;
+let cart=JSON.parse(localStorage.getItem('youzude-cart')||'[]');
+
+function renderProducts(filter='all'){
+  const shown=filter==='all'?products:products.filter(p=>p.category===filter);
+  document.querySelector('#catalogTitle').textContent=filter==='clothing'?'CLOTHING':filter==='accessories'?'ACCESSORIES':'NEW ARRIVALS';
+  document.querySelector('#productCount').textContent=shown.length;
+  grid.innerHTML=shown.map(p=>`<article class="product"><button data-id="${p.id}" aria-label="${p.brand} ${p.name}の詳細を見る"><img loading="lazy" src="${p.image}" alt="${p.brand} ${p.name}"></button><div class="product-info"><h3>${p.brand} — ${p.name}</h3><p class="product-meta"><span class="product-condition">${p.condition}</span> SIZE ${p.size}</p><strong>₩${p.price}</strong></div></article>`).join('');
+}
+
+function setFilter(filter){
+  renderProducts(filter);
+  document.querySelectorAll('.nav-filter').forEach(b=>b.classList.toggle('active',b.dataset.filter===filter));
+  document.querySelector('#new').scrollIntoView({behavior:'smooth'});
+  document.querySelector('.site-header').classList.remove('open');
+}
+
+function openProduct(p){
+  currentProduct=p;
+  document.querySelector('#detailName').textContent=`${p.brand} — ${p.name}`;
+  document.querySelector('#detailPrice').textContent=`₩${p.price}`;
+  document.querySelector('#detailSize').textContent=p.size;
+  document.querySelector('#detailCondition').textContent=p.condition;
+  document.querySelector('#detailConditionText').textContent=conditionText[p.condition];
+  const detailImage=document.querySelector('#detailImage'); detailImage.src=p.image; detailImage.alt=`${p.brand} ${p.name}`;
+  document.querySelector('#detailThumbs').innerHTML=[0,1,2].map((_,i)=>`<button class="${i===0?'active':''}" data-view="${i}" aria-label="詳細画像 ${i+1}"><img src="${p.image}" alt=""></button>`).join('');
+  const q=encodeURIComponent(`${p.brand} ${p.name}`);
+  document.querySelector('#amazonLink').href=`https://www.amazon.co.jp/s?k=${q}`;
+  document.querySelector('#mercariLink').href=`https://jp.mercari.com/search?keyword=${q}`;
+  document.querySelector('#addCart').classList.toggle('added',cart.includes(p.id));
+  document.querySelector('#addCart').textContent=cart.includes(p.id)?'カートに追加済み':'カートに入れる';
+  productDialog.showModal();
+}
+
+function updateCart(){document.querySelector('#cartCount').textContent=cart.length;localStorage.setItem('youzude-cart',JSON.stringify(cart))}
+function renderCart(){
+  const items=cart.map(id=>products.find(p=>p.id===id)).filter(Boolean);
+  document.querySelector('#cartItems').innerHTML=items.length?items.map(p=>`<article class="cart-row"><img src="${p.image}" alt=""><div><h3>${p.brand} — ${p.name}</h3><p>CONDITION ${p.condition} / SIZE ${p.size}<br>₩${p.price}</p></div><button data-remove="${p.id}">削除</button></article>`).join(''):'<p class="cart-empty">カートは空です。</p>';
+  const total=items.reduce((sum,p)=>sum+Number(p.price.replaceAll(',','')),0);
+  document.querySelector('#cartTotal').textContent=`₩${total.toLocaleString()}`;
+}
+
+grid.addEventListener('click',e=>{const b=e.target.closest('[data-id]');if(b)openProduct(products.find(p=>p.id===Number(b.dataset.id)))});
+document.querySelector('#detailThumbs').addEventListener('click',e=>{const b=e.target.closest('[data-view]');if(!b)return;document.querySelectorAll('#detailThumbs button').forEach(x=>x.classList.toggle('active',x===b));document.querySelector('#detailImage').style.transform=b.dataset.view==='1'?'scale(1.55)':b.dataset.view==='2'?'scale(1.75)':'scale(1)';document.querySelector('#detailImage').style.transformOrigin=b.dataset.view==='1'?'40% 30%':b.dataset.view==='2'?'65% 70%':'center'});
+document.querySelector('#addCart').addEventListener('click',()=>{if(!currentProduct||cart.includes(currentProduct.id))return;cart.push(currentProduct.id);updateCart();document.querySelector('#addCart').classList.add('added');document.querySelector('#addCart').textContent='カートに追加済み';const toast=document.querySelector('#toast');toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1800)});
+document.querySelector('#cartButton').addEventListener('click',()=>{renderCart();cartDialog.showModal()});
+document.querySelector('#cartItems').addEventListener('click',e=>{const b=e.target.closest('[data-remove]');if(!b)return;cart=cart.filter(id=>id!==Number(b.dataset.remove));updateCart();renderCart()});
+document.querySelectorAll('.nav-filter,.hero-shop').forEach(b=>b.addEventListener('click',()=>setFilter(b.dataset.filter)));
+document.querySelector('.product-dialog .close').addEventListener('click',()=>productDialog.close());document.querySelector('.cart-close').addEventListener('click',()=>cartDialog.close());[productDialog,cartDialog].forEach(d=>d.addEventListener('click',e=>{if(e.target===d)d.close()}));
+
 let slide=0;const slides=[...document.querySelectorAll('.hero-slide')],dots=[...document.querySelectorAll('.hero-progress i')];function showSlide(n){slides.forEach((s,i)=>s.classList.toggle('is-active',i===n));dots.forEach((d,i)=>d.classList.toggle('active',i===n))}showSlide(0);setInterval(()=>{slide=(slide+1)%slides.length;showSlide(slide)},6500);
 const header=document.querySelector('.site-header');document.querySelector('.menu-toggle').addEventListener('click',()=>header.classList.toggle('open'));header.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>header.classList.remove('open')));
+renderProducts();updateCart();
